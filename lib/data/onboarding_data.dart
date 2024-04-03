@@ -1,7 +1,7 @@
 import 'package:expenz/models/onboarding_model.dart';
 
 class OnbardingData {
-  final List<Onboarding> onboardingList = [
+  static final List<Onboarding> onboardingList = [
     Onboarding(
       title: "Gain total control of your money",
       imagePath: "assets/images/onboard_1.png",

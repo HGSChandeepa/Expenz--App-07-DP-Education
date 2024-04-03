@@ -1,4 +1,10 @@
+import 'package:expenz/data/onboarding_data.dart';
+import 'package:expenz/screens/home_page.dart';
+import 'package:expenz/screens/onboarding/front_page.dart';
+import 'package:expenz/screens/onboarding/shared_screen.dart';
+import 'package:expenz/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -8,19 +14,127 @@ class OnBoardingScreen extends StatefulWidget {
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
+  final PageController _controller = PageController();
+
+  bool showHomePage = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
+      body: Column(
         children: [
-          Container(
-            color: Colors.red,
-          ),
-          Container(
-            color: Colors.green,
-          ),
-          Container(
-            color: Colors.blue,
+          Expanded(
+            child: Stack(
+              children: [
+                //Onboarding pages list is passed here
+                PageView(
+                  controller: _controller,
+                  onPageChanged: (index) {
+                    setState(() {
+                      print(index);
+                      showHomePage = index == 3;
+                    });
+                  },
+                  children: [
+                    const FrontPage(),
+                    SharedOnboardingScreen(
+                      title: OnbardingData.onboardingList[0].title,
+                      imagePath: OnbardingData.onboardingList[0].imagePath,
+                      description: OnbardingData.onboardingList[0].description,
+                    ),
+                    SharedOnboardingScreen(
+                      title: OnbardingData.onboardingList[1].title,
+                      imagePath: OnbardingData.onboardingList[1].imagePath,
+                      description: OnbardingData.onboardingList[1].description,
+                    ),
+                    SharedOnboardingScreen(
+                      title: OnbardingData.onboardingList[2].title,
+                      imagePath: OnbardingData.onboardingList[2].imagePath,
+                      description: OnbardingData.onboardingList[2].description,
+                    ),
+                  ],
+                ),
+
+                //the page indicators
+
+                Container(
+                  alignment: const Alignment(0, 0.75),
+                  child: SmoothPageIndicator(
+                    controller: _controller,
+                    count: 4,
+                    effect: const WormEffect(
+                      activeDotColor: kMainColor,
+                      dotColor: kLightGrey,
+                    ),
+                  ),
+                ),
+
+                //navigation button
+
+                Positioned(
+                  bottom: 20,
+                  left: 0,
+                  right: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: !showHomePage
+                        ? GestureDetector(
+                            onTap: () {
+                              _controller.animateToPage(
+                                _controller.page!.toInt() + 1,
+                                duration: const Duration(milliseconds: 400),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.06,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: kMainColor,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  showHomePage ? "Get Started" : "Next",
+                                  style: const TextStyle(
+                                    color: kWhite,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomePage(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.06,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: kMainColor,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  showHomePage ? "Get Started" : "Next",
+                                  style: const TextStyle(
+                                    color: kWhite,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                  ),
+                )
+              ],
+            ),
           ),
         ],
       ),
