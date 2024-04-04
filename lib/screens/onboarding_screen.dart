@@ -1,5 +1,5 @@
 import 'package:expenz/data/onboarding_data.dart';
-import 'package:expenz/screens/home_page.dart';
+import 'package:expenz/screens/user_data_screen.dart';
 import 'package:expenz/screens/onboarding/front_page.dart';
 import 'package:expenz/screens/onboarding/shared_screen.dart';
 import 'package:expenz/utils/colors.dart';
@@ -96,7 +96,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
+                                  builder: (context) => const UserDataScreen(),
                                 ),
                               );
                             },
