@@ -1,8 +1,12 @@
+import 'package:expenz/models/expence_model.dart';
+import 'package:expenz/models/income_model.dart';
 import 'package:expenz/screens/add_new.dart';
 import 'package:expenz/screens/budget_screen.dart';
 import 'package:expenz/screens/home_screen.dart';
 import 'package:expenz/screens/profile_screen.dart';
 import 'package:expenz/screens/transactions_screen.dart';
+import 'package:expenz/services/expence_services.dart';
+import 'package:expenz/services/income_services.dart';
 import 'package:expenz/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -17,14 +21,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
-
-  final List<Widget> _pages = [
-    const AddNewScreen(),
-    const HomeScreen(),
-    const TransactionsScreen(),
-    const BudgetScreen(),
-    const ProfileScreen(),
-  ];
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
@@ -64,6 +60,17 @@ class _MainScreenState extends State<MainScreen> {
     ];
   }
 
+  late List<Income> incomeList;
+  late List<Expense> expenseList;
+
+  @override
+  final List<Widget> _pages = [
+    const HomeScreen(),
+    const TransactionsScreen(),
+    const AddNewScreen(),
+    const BudgetScreen(),
+    const ProfileScreen(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +100,11 @@ class _MainScreenState extends State<MainScreen> {
           duration: Duration(milliseconds: 200),
         ),
         navBarStyle: NavBarStyle.style17,
+        onItemSelected: (value) {
+          setState(() {
+            print(value);
+          });
+        },
       ),
     );
   }

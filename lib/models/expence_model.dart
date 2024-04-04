@@ -23,7 +23,7 @@ final class Expense {
   final int id;
   final String title;
   final double amount;
-  final String category;
+  final ExpenseCategory category;
   final DateTime date;
   final DateTime time;
   final String description;
@@ -37,4 +37,30 @@ final class Expense {
     required this.time,
     required this.description,
   });
+
+  // Convert the Expense object to a JSON object
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'amount': amount,
+      'category': category.index,
+      'date': date.toIso8601String(),
+      'time': time.toIso8601String(),
+      'description': description,
+    };
+  }
+
+  // Create an Expense object from a JSON object
+  factory Expense.fromJson(Map<String, dynamic> json) {
+    return Expense(
+      id: json['id'],
+      title: json['title'],
+      amount: json['amount'],
+      category: ExpenseCategory.values[json['category']],
+      date: DateTime.parse(json['date']),
+      time: DateTime.parse(json['time']),
+      description: json['description'],
+    );
+  }
 }
