@@ -3,6 +3,7 @@ import 'package:expenz/screens/home_page.dart';
 import 'package:expenz/screens/onboarding/front_page.dart';
 import 'package:expenz/screens/onboarding/shared_screen.dart';
 import 'package:expenz/utils/colors.dart';
+import 'package:expenz/widgets/custum_button.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -31,7 +32,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   controller: _controller,
                   onPageChanged: (index) {
                     setState(() {
-                      print(index);
                       showHomePage = index == 3;
                     });
                   },
@@ -86,22 +86,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 curve: Curves.easeInOut,
                               );
                             },
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * 0.06,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: kMainColor,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  showHomePage ? "Get Started" : "Next",
-                                  style: const TextStyle(
-                                    color: kWhite,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
+                            child: CustumButton(
+                              buttonColor: kMainColor,
+                              buttonName: showHomePage ? "Get Started" : "Next",
                             ),
                           )
                         : GestureDetector(
@@ -109,26 +96,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => HomePage(),
+                                  builder: (context) => const HomePage(),
                                 ),
                               );
                             },
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * 0.06,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: kMainColor,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  showHomePage ? "Get Started" : "Next",
-                                  style: const TextStyle(
-                                    color: kWhite,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
+                            child: CustumButton(
+                              buttonColor: kMainColor,
+                              buttonName: showHomePage ? "Get Started" : "Next",
                             ),
                           ),
                   ),
