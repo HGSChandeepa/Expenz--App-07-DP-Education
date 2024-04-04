@@ -1,4 +1,5 @@
 import 'package:expenz/screens/home_screen.dart';
+import 'package:expenz/screens/main_screen.dart';
 import 'package:expenz/screens/onboarding_screen.dart';
 import 'package:expenz/services/user_details_service.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(fontFamily: "Inter"),
-            home: hasUsername ? const HomeScreen() : const OnBoardingScreen(),
+            home: hasUsername ? const MainScreen() : const OnBoardingScreen(),
           );
         }
       },

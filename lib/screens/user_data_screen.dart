@@ -95,6 +95,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                       ),
                       TextFormField(
                         controller: _passwordContorller,
+                        obscureText: true,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Please Enter A Valid Password";
@@ -116,6 +117,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                       ),
                       TextFormField(
                         controller: _confirmPasswordContorller,
+                        obscureText: true,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Please Enter A Valid Password";
@@ -171,8 +173,8 @@ class _UserDataScreenState extends State<UserDataScreen> {
                             String confirmPassword =
                                 _confirmPasswordContorller.text;
                             //store the user details in shared preferences
-                            await UserService.storeUserDetails(username,
-                                email, password, confirmPassword, context);
+                            await UserService.storeUserDetails(username, email,
+                                password, confirmPassword, context);
 
                             //Navigate to the Home screen
                             Navigator.push(
