@@ -171,7 +171,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                             String confirmPassword =
                                 _confirmPasswordContorller.text;
                             //store the user details in shared preferences
-                            await UserService().storeUserDetails(username,
+                            await UserService.storeUserDetails(username,
                                 email, password, confirmPassword, context);
 
                             //Navigate to the Home screen

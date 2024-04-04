@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     //get the user details from the shared preferences
-    UserService().getUserDetails().then((value) {
+    UserService.getUserDetails().then((value) {
       //check if the user details are not null
       if (value['username'] != null && value['email'] != null) {
         //set the username and email to the state

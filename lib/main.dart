@@ -1,11 +1,12 @@
 import 'package:expenz/screens/home_screen.dart';
 import 'package:expenz/screens/onboarding_screen.dart';
+import 'package:expenz/services/user_details_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _checkUsername(),
+      future: UserService.checkUsername(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
@@ -29,11 +30,5 @@ class MyApp extends StatelessWidget {
         }
       },
     );
-  }
-
-  Future<bool> _checkUsername() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString('username');
-    return username != null;
   }
 }
