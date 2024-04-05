@@ -25,32 +25,32 @@ class _ChartState extends State<Chart> {
     if (widget.isExpense) {
       return [
         PieChartSectionData(
-          color: kMainColor,
+          color: expenseCategoryColors[ExpenseCategory.food],
           value: widget.expenseCategoryTotals[ExpenseCategory.health] ?? 0,
           showTitle: false,
           radius: 60,
         ),
         PieChartSectionData(
-          color: Colors.greenAccent,
+          color: expenseCategoryColors[ExpenseCategory.shopping],
           value: widget.expenseCategoryTotals[ExpenseCategory.shopping] ?? 0,
           showTitle: false,
           radius: 60,
         ),
         PieChartSectionData(
-          color: Colors.blueAccent,
+          color: expenseCategoryColors[ExpenseCategory.transport],
           value: widget.expenseCategoryTotals[ExpenseCategory.transport] ?? 0,
           showTitle: false,
           radius: 60,
         ),
         PieChartSectionData(
-          color: Colors.amber,
+          color: expenseCategoryColors[ExpenseCategory.subscription],
           value:
               widget.expenseCategoryTotals[ExpenseCategory.subscription] ?? 0,
           showTitle: false,
           radius: 60,
         ),
         PieChartSectionData(
-          color: Colors.purple,
+          color: expenseCategoryColors[ExpenseCategory.food],
           value: widget.expenseCategoryTotals[ExpenseCategory.food] ?? 0,
           showTitle: false,
           radius: 60,
@@ -59,25 +59,25 @@ class _ChartState extends State<Chart> {
     } else {
       return [
         PieChartSectionData(
-          color: kMainColor,
+          color: incomeCategoryColors[IncomeCategory.salary],
           value: widget.incomeCategoryTotals[IncomeCategory.salary] ?? 0,
           showTitle: false,
           radius: 60,
         ),
         PieChartSectionData(
-          color: Colors.greenAccent,
+          color: incomeCategoryColors[IncomeCategory.freelance],
           value: widget.incomeCategoryTotals[IncomeCategory.freelance] ?? 0,
           showTitle: false,
           radius: 60,
         ),
         PieChartSectionData(
-          color: Colors.blueAccent,
+          color: incomeCategoryColors[IncomeCategory.passive],
           value: widget.incomeCategoryTotals[IncomeCategory.passive] ?? 0,
           showTitle: false,
           radius: 60,
         ),
         PieChartSectionData(
-          color: Colors.amber,
+          color: incomeCategoryColors[IncomeCategory.freelance],
           value: widget.incomeCategoryTotals[IncomeCategory.sales] ?? 0,
           showTitle: false,
           radius: 60,
@@ -97,7 +97,7 @@ class _ChartState extends State<Chart> {
     );
 
     return Container(
-      height: 200,
+      height: 250,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,

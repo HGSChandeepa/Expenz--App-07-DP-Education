@@ -183,8 +183,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       BudgetScreen(
-        expenceCategoryTotlas: calculateExpensesCategories(),
-        incomeCategoryTotlas: calculateIncomeCategories(),
+        expenseCategoryTotals: calculateExpensesCategories(),
+        incomeCategoryTotals: calculateIncomeCategories(),
       ),
       const HomeScreen(),
       TransactionsScreen(

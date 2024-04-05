@@ -2,17 +2,19 @@ import 'package:expenz/models/expence_model.dart';
 import 'package:expenz/models/income_model.dart';
 import 'package:expenz/utils/colors.dart';
 import 'package:expenz/utils/constants.dart';
+import 'package:expenz/widgets/category_card.dart';
 import 'package:expenz/widgets/pie_chart.dart';
 import 'package:flutter/material.dart';
 
 class BudgetScreen extends StatefulWidget {
-  final Map<ExpenseCategory, double> expenceCategoryTotlas;
-  final Map<IncomeCategory, double> incomeCategoryTotlas;
+  final Map<ExpenseCategory, double> expenseCategoryTotals;
+  final Map<IncomeCategory, double> incomeCategoryTotals;
+
   const BudgetScreen({
-    super.key,
-    required this.expenceCategoryTotlas,
-    required this.incomeCategoryTotlas,
-  });
+    Key? key,
+    required this.expenseCategoryTotals,
+    required this.incomeCategoryTotals,
+  }) : super(key: key);
 
   @override
   State<BudgetScreen> createState() => _BudgetScreenState();
@@ -20,11 +22,21 @@ class BudgetScreen extends StatefulWidget {
 
 class _BudgetScreenState extends State<BudgetScreen> {
   int _selected = 0;
+
+  //methode to find the category color from the category
+  Color getCategoryColor(dynamic category) {
+    if (category is ExpenseCategory) {
+      return expenseCategoryColors[category]!;
+    } else {
+      return incomeCategoryColors[category]!;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final data = _selected == 0
-        ? widget.expenceCategoryTotlas
-        : widget.incomeCategoryTotlas;
+        ? widget.expenseCategoryTotals
+        : widget.incomeCategoryTotals;
 
     return Scaffold(
       appBar: AppBar(
@@ -74,7 +86,9 @@ class _BudgetScreenState extends State<BudgetScreen> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 60),
+                              vertical: 10,
+                              horizontal: 60,
+                            ),
                             child: Text(
                               "Expense",
                               style: TextStyle(
@@ -117,12 +131,32 @@ class _BudgetScreenState extends State<BudgetScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 100),
-              //pie chart
+              const SizedBox(height: 20),
+              // Pie chart
               Chart(
-                expenseCategoryTotals: widget.expenceCategoryTotlas,
-                incomeCategoryTotals: widget.incomeCategoryTotlas,
+                expenseCategoryTotals: widget.expenseCategoryTotals,
+                incomeCategoryTotals: widget.incomeCategoryTotals,
                 isExpense: _selected == 0,
+              ),
+              const SizedBox(height: 50),
+              // List of categories
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    final category = data.keys.toList()[index];
+                    final total = data.values.toList()[index];
+                    return CategoryCard(
+                      title: category.name,
+                      amount: total,
+                      totalAmount: data.values.reduce((a, b) => a + b),
+                      progressColor: getCategoryColor(category),
+                    );
+                  },
+                ),
               ),
             ],
           ),
