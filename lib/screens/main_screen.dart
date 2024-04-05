@@ -12,7 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({
+    super.key,
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -21,44 +23,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
-
-  List<PersistentBottomNavBarItem> _navBarsItems() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.home),
-        title: "Home",
-        activeColorPrimary: kMainColor,
-        inactiveColorPrimary: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.monetization_on),
-        title: "Transactions",
-        activeColorPrimary: kMainColor,
-        inactiveColorPrimary: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(
-          Icons.add,
-          color: kWhite,
-        ),
-        title: "Add New",
-        activeColorPrimary: kMainColor,
-        inactiveColorPrimary: kWhite,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.rocket),
-        title: "Budget",
-        activeColorPrimary: kMainColor,
-        inactiveColorPrimary: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.person),
-        title: "Profile",
-        activeColorPrimary: kMainColor,
-        inactiveColorPrimary: Colors.grey,
-      ),
-    ];
-  }
 
   // Define the list of incomes
   List<Expense> expensesList = [];
@@ -109,8 +73,11 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     // Fetch all the expenses when the widget is first initialized
-    fetchExpenses();
-    fetchIncomes();
+    setState(() {
+      fetchExpenses();
+      fetchIncomes();
+      print("main screeen");
+    });
   }
 
   // Function to fetch expenses
@@ -182,10 +149,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      BudgetScreen(
-        expenseCategoryTotals: calculateExpensesCategories(),
-        incomeCategoryTotals: calculateIncomeCategories(),
-      ),
       const HomeScreen(),
       TransactionsScreen(
         expensesList: expensesList,
@@ -197,40 +160,71 @@ class _MainScreenState extends State<MainScreen> {
         addExpense: addNewExpense,
         addIcome: addNewIncome,
       ),
+      BudgetScreen(
+        expenseCategoryTotals: calculateExpensesCategories(),
+        incomeCategoryTotals: calculateIncomeCategories(),
+      ),
       const ProfileScreen(),
     ];
     return Scaffold(
-      body: PersistentTabView(
-        context,
-        controller: _controller,
-        screens: pages,
-        items: _navBarsItems(),
-        confineInSafeArea: true,
-        backgroundColor: Colors.white,
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        hideNavigationBarWhenKeyboardShows: true,
-        decoration: NavBarDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          colorBehindNavBar: Colors.white,
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: kWhite,
+        selectedItemColor: kMainColor,
+        unselectedItemColor: Colors.grey,
+        selectedLabelStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
         ),
-        popAllScreensOnTapOfSelectedTab: true,
-        itemAnimationProperties: const ItemAnimationProperties(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
         ),
-        screenTransitionAnimation: const ScreenTransitionAnimation(
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle: NavBarStyle.style17,
-        onItemSelected: (value) {
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              color: kBlack,
+            ),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.monetization_on,
+              color: kBlack,
+            ),
+            label: "Transactions",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add,
+              color: kBlack,
+            ),
+            label: "Add New",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.rocket,
+              color: kBlack,
+            ),
+            label: "Budget",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: kBlack,
+            ),
+            label: "Profile",
+          ),
+        ],
+        currentIndex: 0,
+        onTap: (index) {
           setState(() {
-            // print(value);
+            _controller.index = index;
           });
         },
       ),
+      body: pages[_controller.index],
     );
   }
 }

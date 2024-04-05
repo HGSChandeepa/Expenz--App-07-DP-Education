@@ -1,4 +1,5 @@
 import 'package:expenz/screens/home_screen.dart';
+import 'package:expenz/screens/main_screen.dart';
 import 'package:expenz/services/user_details_service.dart';
 import 'package:expenz/utils/colors.dart';
 import 'package:expenz/utils/constants.dart';
@@ -180,7 +181,7 @@ class _UserDataScreenState extends State<UserDataScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
+                                builder: (context) => const MainScreen(),
                               ),
                             );
                           }
