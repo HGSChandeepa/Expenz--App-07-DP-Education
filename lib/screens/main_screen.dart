@@ -60,30 +60,99 @@ class _MainScreenState extends State<MainScreen> {
     ];
   }
 
-  late List<Income> incomeList;
-  late List<Expense> expenseList;
+  // Define the list of incomes
+  List<Expense> expensesList = [];
+  List<Income> incomesList = [];
 
   @override
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    const TransactionsScreen(),
-    const AddNewScreen(),
-    const BudgetScreen(),
-    const ProfileScreen(),
-  ];
+  void initState() {
+    super.initState();
+    // Fetch all the expenses when the widget is first initialized
+    fetchExpenses();
+  }
+
+  // Function to fetch expenses
+  void fetchExpenses() async {
+    // Load expenses from shared preferences
+    List<Expense> loadedExpenses = await ExpenceService().loadExpenses();
+
+    // Update expensesList with the fetched expenses
+    setState(() {
+      expensesList = loadedExpenses;
+    });
+  }
+
+  // Function to add a new expense
+  void addNewExpense(Expense newExpense) {
+    // Save the new expense to shared preferences
+    ExpenceService().saveExpense(newExpense, context);
+
+    // Update the list of expenses
+    setState(() {
+      expensesList.add(newExpense);
+    });
+  }
+
+  // Function to delete an expense
+  void deleteExpense(Expense expense) {
+    // Delete the expense from shared preferences
+    ExpenceService().deleteExpense(expense.id, context);
+
+    // Update the list of expenses
+    setState(() {
+      expensesList.remove(expense);
+    });
+  }
+
+  //Function to add new income
+  void addNewIncome(Income newIncome) {
+    // Save the new income to shared preferences
+    IncomeServices().saveIncome(newIncome, context);
+
+    // Update the list of incomes
+    setState(() {
+      incomesList.add(newIncome);
+    });
+  }
+
+  // Function to delete an income
+  void deleteIncome(Income income) {
+    // Delete the income from shared preferences
+    IncomeServices().deleteIncome(income.id, context);
+
+    // Update the list of incomes
+    setState(() {
+      incomesList.remove(income);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [
+      const BudgetScreen(),
+      const HomeScreen(),
+      TransactionsScreen(
+        expensesList: expensesList,
+        onDismissedExpenses: deleteExpense,
+        incomeList: incomesList,
+        onDismissedIncome: deleteIncome,
+      ),
+      AddNewScreen(
+        addExpense: addNewExpense,
+        addIcome: addNewIncome,
+      ),
+      const ProfileScreen(),
+    ];
     return Scaffold(
       body: PersistentTabView(
         context,
         controller: _controller,
-        screens: _pages,
+        screens: pages,
         items: _navBarsItems(),
         confineInSafeArea: true,
         backgroundColor: Colors.white,
         handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true,
-        stateManagement: true,
         hideNavigationBarWhenKeyboardShows: true,
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(10.0),
@@ -102,7 +171,7 @@ class _MainScreenState extends State<MainScreen> {
         navBarStyle: NavBarStyle.style17,
         onItemSelected: (value) {
           setState(() {
-            print(value);
+            // print(value);
           });
         },
       ),

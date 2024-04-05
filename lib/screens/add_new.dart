@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:expenz/models/expence_model.dart';
 import 'package:expenz/models/income_model.dart';
 import 'package:expenz/services/expence_services.dart';
@@ -11,8 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AddNewScreen extends StatefulWidget {
+  final Function(Expense) addExpense;
+  final Function(Income) addIcome;
   const AddNewScreen({
     super.key,
+    required this.addExpense,
+    required this.addIcome,
   });
 
   @override
@@ -443,12 +445,14 @@ class _AddNewScreenState extends State<AddNewScreen> {
                               height: 20,
                             ),
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 if (_selected == 0) {
                                   //create new expense
+                                  List<Expense> loadedExpenses =
+                                      await ExpenceService().loadExpenses();
                                   Expense expense = Expense(
-                                    id: ExpenceService().expensesList.length +
-                                        1,
+                                    id: loadedExpenses.length +
+                                        1, // Calculate ID based on loaded expenses
                                     title: _titleController.text,
                                     amount: _amountController.text.isEmpty
                                         ? 0
@@ -458,33 +462,39 @@ class _AddNewScreenState extends State<AddNewScreen> {
                                     time: _selectedTime,
                                     description: _descriptionController.text,
                                   );
-                                  ExpenceService()
-                                      .saveExpense(expense, context);
 
-                                  setState(() {
-                                    print(ExpenceService().expensesList.length);
-                                  });
+                                  //add expense to the list
 
-                                  print(expense.title);
+                                  widget.addExpense(expense);
+
+                                  //clear text fields
+                                  _titleController.clear();
+                                  _amountController.clear();
+                                  _descriptionController.clear();
                                 } else {
-                                  //create new income
+                                  // Assuming a method to load income
+                                  List<Income> loadedIncome =
+                                      await IncomeServices().loadIncomme();
                                   Income income = Income(
-                                    id: IncomeService().incomeList.length + 1,
+                                    id: loadedIncome.length +
+                                        1, // Calculate ID based on loaded income
                                     title: _titleController.text,
                                     amount: _amountController.text.isEmpty
                                         ? 0
                                         : double.parse(_amountController.text),
-                                    category: _incomeCategory.name,
+                                    category: _incomeCategory,
                                     date: _selectedDate,
                                     time: _selectedTime,
                                     description: _descriptionController.text,
                                   );
 
-                                  setState(() {
-                                    IncomeService().addIncome(income);
-                                  });
+                                  //add income to the list
+                                  widget.addIcome(income);
 
-                                  print(income.title);
+                                  //clear text fields
+                                  _titleController.clear();
+                                  _amountController.clear();
+                                  _descriptionController.clear();
                                 }
                               },
                               child: CustumButton(
