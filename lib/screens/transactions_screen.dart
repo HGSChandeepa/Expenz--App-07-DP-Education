@@ -67,39 +67,49 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
 
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.4,
-                  child: widget.expensesList.isEmpty
-                      ? const Text(
-                          "No expenses added yet, add some expenses to see here",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: kGrey,
-                          ),
-                        )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: widget.expensesList.length,
-                          itemBuilder: (context, index) {
-                            final expense = widget.expensesList[index];
-                            return Dismissible(
-                              key: ValueKey(expense),
-                              direction: DismissDirection.startToEnd,
-                              onDismissed: (direction) {
-                                setState(() {
-                                  widget.onDismissedExpenses(expense);
-                                });
-                              },
-                              child: ExpenceCard(
-                                title: expense.title,
-                                date: expense.date,
-                                amount: expense.amount,
-                                category: expense.category,
-                                description: expense.description,
-                                createdAt: expense.time,
+                  child: SingleChildScrollView(
+                    // Wrap with SingleChildScrollView to make the content scrollable
+                    child: Column(
+                      // Wrap with Column to ensure proper layout
+                      children: [
+                        widget.expensesList.isEmpty
+                            ? const Text(
+                                "No expenses added yet, add some expenses to see here",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: kGrey,
+                                ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap:
+                                    true, // Set shrinkWrap to true to allow the ListView to adapt to its content size
+                                scrollDirection: Axis.vertical,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: widget.expensesList.length,
+                                itemBuilder: (context, index) {
+                                  final expense = widget.expensesList[index];
+                                  return Dismissible(
+                                    key: ValueKey(expense),
+                                    direction: DismissDirection.startToEnd,
+                                    onDismissed: (direction) {
+                                      setState(() {
+                                        widget.onDismissedExpenses(expense);
+                                      });
+                                    },
+                                    child: ExpenceCard(
+                                      title: expense.title,
+                                      date: expense.date,
+                                      amount: expense.amount,
+                                      category: expense.category,
+                                      description: expense.description,
+                                      createdAt: expense.time,
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
+                      ],
+                    ),
+                  ),
                 ),
 
                 const Text(
@@ -118,39 +128,45 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
 
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.4,
-                  child: widget.incomeList.isEmpty
-                      ? const Text(
-                          "No incomes added yet, add some incomes to see here",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: kGrey,
-                          ),
-                        )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: widget.incomeList.length,
-                          itemBuilder: (context, index) {
-                            final income = widget.incomeList[index];
-                            return Dismissible(
-                              key: ValueKey(income),
-                              direction: DismissDirection.startToEnd,
-                              onDismissed: (direction) {
-                                setState(() {
-                                  widget.onDismissedIncome(income);
-                                });
-                              },
-                              child: IncomeCard(
-                                title: income.title,
-                                date: income.date,
-                                amount: income.amount,
-                                category: income.category,
-                                description: income.description,
-                                createdAt: income.time,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        widget.incomeList.isEmpty
+                            ? const Text(
+                                "No incomes added yet, add some incomes to see here",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: kGrey,
+                                ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: widget.incomeList.length,
+                                itemBuilder: (context, index) {
+                                  final income = widget.incomeList[index];
+                                  return Dismissible(
+                                    key: ValueKey(income),
+                                    direction: DismissDirection.startToEnd,
+                                    onDismissed: (direction) {
+                                      setState(() {
+                                        widget.onDismissedIncome(income);
+                                      });
+                                    },
+                                    child: IncomeCard(
+                                      title: income.title,
+                                      date: income.date,
+                                      amount: income.amount,
+                                      category: income.category,
+                                      description: income.description,
+                                      createdAt: income.time,
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),

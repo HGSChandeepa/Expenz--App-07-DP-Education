@@ -64,11 +64,53 @@ class _MainScreenState extends State<MainScreen> {
   List<Expense> expensesList = [];
   List<Income> incomesList = [];
 
+  //category total expenses
+  Map<ExpenseCategory, double> calculateExpensesCategories() {
+    Map<ExpenseCategory, double> categoryTotals = {
+      ExpenseCategory.food: 0,
+      ExpenseCategory.transport: 0,
+      ExpenseCategory.shopping: 0,
+      ExpenseCategory.health: 0,
+      ExpenseCategory.subscription: 0,
+    };
+
+    for (Expense expense in expensesList) {
+      categoryTotals[expense.category] =
+          categoryTotals[expense.category]! + expense.amount;
+    }
+
+    //print the food category total
+    // print(categoryTotals[ExpenseCategory.health].runtimeType);
+
+    return categoryTotals;
+  }
+
+  //category total income
+  Map<IncomeCategory, double> calculateIncomeCategories() {
+    Map<IncomeCategory, double> categoryTotals = {
+      IncomeCategory.salary: 0,
+      IncomeCategory.freelance: 0,
+      IncomeCategory.passive: 0,
+      IncomeCategory.sales: 0,
+    };
+
+    for (Income income in incomesList) {
+      categoryTotals[income.category] =
+          categoryTotals[income.category]! + income.amount;
+    }
+
+    //print the food category total
+    // print(categoryTotals[IncomeCategory.salary].runtimeType);
+
+    return categoryTotals;
+  }
+
   @override
   void initState() {
     super.initState();
     // Fetch all the expenses when the widget is first initialized
     fetchExpenses();
+    fetchIncomes();
   }
 
   // Function to fetch expenses
@@ -104,6 +146,17 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  //fetch incomes
+  void fetchIncomes() async {
+    // Load incomes from shared preferences
+    List<Income> loadedIncomes = await IncomeServices().loadIncomes();
+
+    // Update incomesList with the fetched incomes
+    setState(() {
+      incomesList = loadedIncomes;
+    });
+  }
+
   //Function to add new income
   void addNewIncome(Income newIncome) {
     // Save the new income to shared preferences
@@ -129,7 +182,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      const BudgetScreen(),
+      BudgetScreen(
+        expenceCategoryTotlas: calculateExpensesCategories(),
+        incomeCategoryTotlas: calculateIncomeCategories(),
+      ),
       const HomeScreen(),
       TransactionsScreen(
         expensesList: expensesList,

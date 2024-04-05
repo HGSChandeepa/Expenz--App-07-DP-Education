@@ -474,7 +474,7 @@ class _AddNewScreenState extends State<AddNewScreen> {
                                 } else {
                                   // Assuming a method to load income
                                   List<Income> loadedIncome =
-                                      await IncomeServices().loadIncomme();
+                                      await IncomeServices().loadIncomes();
                                   Income income = Income(
                                     id: loadedIncome.length +
                                         1, // Calculate ID based on loaded income

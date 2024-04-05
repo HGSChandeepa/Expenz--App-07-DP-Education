@@ -5,18 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IncomeServices {
-  //  Define the list of incomes
-  List<Income> incomeList = [];
-  //  Define the key for storing incomes in shared preferences
+  // Define the key for storing incomes in shared preferences
   static const String _incomeKey = 'income';
 
-  //  Save the income to shared preferences
+  // Save the income to shared preferences
   Future<void> saveIncome(Income income, BuildContext context) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       List<String>? existingIncomes = prefs.getStringList(_incomeKey);
 
-      //  Convert the existing incomes to a list of Income objects
+      // Convert the existing incomes to a list of Income objects
       List<Income> existingIncomeObject = [];
       if (existingIncomes != null) {
         existingIncomeObject = existingIncomes
@@ -24,10 +22,10 @@ class IncomeServices {
             .toList();
       }
 
-      // Add the new expense to the list
+      // Add the new income to the list
       existingIncomeObject.add(income);
 
-      //  Convert the list of Income objects back to a list of strings
+      // Convert the list of Income objects back to a list of strings
       List<String> updatedIncome =
           existingIncomeObject.map((e) => json.encode(e.toJson())).toList();
 
@@ -47,7 +45,7 @@ class IncomeServices {
   }
 
   //Load the income from shared preferences
-  Future<List<Income>> loadIncomme() async {
+  Future<List<Income>> loadIncomes() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? existingIncomes = prefs.getStringList(_incomeKey);
 
@@ -68,7 +66,7 @@ class IncomeServices {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       List<String>? existingIncomes = prefs.getStringList(_incomeKey);
 
-      //  Convert the existing incomes to a list of Income objects
+      // Convert the existing incomes to a list of Income objects
       List<Income> existingIncomeObjects = [];
       if (existingIncomes != null) {
         existingIncomeObjects = existingIncomes
@@ -76,14 +74,14 @@ class IncomeServices {
             .toList();
       }
 
-      //  Remove the income with the given id from the list
+      // Remove the income with the given id from the list
       existingIncomeObjects.removeWhere((element) => element.id == id);
 
-      //  Convert the list of Income objects back to a list of strings
+      // Convert the list of Income objects back to a list of strings
       List<String> updatedIncomes =
           existingIncomeObjects.map((e) => json.encode(e.toJson())).toList();
 
-      //  Save the updated list of incomes to shared preferences
+      // Save the updated list of incomes to shared preferences
       await prefs.setStringList(_incomeKey, updatedIncomes);
 
       //show snackbar
