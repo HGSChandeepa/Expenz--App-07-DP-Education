@@ -7,6 +7,7 @@ class CategoryCard extends StatefulWidget {
   final double amount;
   final double totalAmount;
   final Color progressColor;
+  final bool isExpense;
 
   const CategoryCard({
     super.key,
@@ -14,6 +15,7 @@ class CategoryCard extends StatefulWidget {
     required this.amount,
     required this.totalAmount,
     required this.progressColor,
+    required this.isExpense,
   });
 
   @override
@@ -85,10 +87,10 @@ class _CategoryCardState extends State<CategoryCard> {
               ),
               Text(
                 "${widget.amount.toStringAsFixed(2)} \$",
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: kRed,
+                  color: widget.isExpense ? kRed : kGreen,
                 ),
               ),
             ],

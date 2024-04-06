@@ -154,6 +154,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
                       amount: total,
                       totalAmount: data.values.reduce((a, b) => a + b),
                       progressColor: getCategoryColor(category),
+                      isExpense: _selected == 0,
                     );
                   },
                 ),
