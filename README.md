@@ -22,7 +22,7 @@ Expenz is a Flutter application designed to help users track their expenses and 
 2. **Navigate to the project directory**:
 
    ```bash
-   cd expenz
+   cd Expenz--App-07-DP-Education
    ```
 
 3. **Install dependencies**:
