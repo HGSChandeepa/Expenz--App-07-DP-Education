@@ -156,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Text(
                           "Welcome $username",
                           style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.w500,
                           ),
                         ),

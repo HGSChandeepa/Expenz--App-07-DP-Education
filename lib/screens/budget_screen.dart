@@ -141,7 +141,7 @@ class _BudgetScreenState extends State<BudgetScreen> {
               const SizedBox(height: 50),
               // List of categories
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.3,
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
