@@ -34,6 +34,7 @@ class _AddNewScreenState extends State<AddNewScreen> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
+ //dispose controllers when the widget is disposed to avoid memory leaks
   @override
   void dispose() {
     _titleController.dispose();

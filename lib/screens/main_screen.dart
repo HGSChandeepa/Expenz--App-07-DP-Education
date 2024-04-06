@@ -9,7 +9,6 @@ import 'package:expenz/services/expence_services.dart';
 import 'package:expenz/services/income_services.dart';
 import 'package:expenz/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({
@@ -21,8 +20,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final PersistentTabController _controller =
-      PersistentTabController(initialIndex: 0);
+  int _selectedIndex = 0;
 
   // Define the list of incomes
   List<Expense> expensesList = [];
@@ -76,7 +74,6 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       fetchExpenses();
       fetchIncomes();
-      print("main screeen");
     });
   }
 
@@ -149,7 +146,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      const HomeScreen(),
+      HomeScreen(
+        expensesList: expensesList,
+      ),
       TransactionsScreen(
         expensesList: expensesList,
         onDismissedExpenses: deleteExpense,
@@ -180,51 +179,55 @@ class _MainScreenState extends State<MainScreen> {
           fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
-        items: const [
-          BottomNavigationBarItem(
+        items: [
+          const BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              color: kBlack,
             ),
             label: "Home",
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(
-              Icons.monetization_on,
-              color: kBlack,
+              Icons.list_rounded,
             ),
             label: "Transactions",
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.add,
-              color: kBlack,
+            icon: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                color: kMainColor,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.add,
+                color: kWhite,
+                size: 30,
+              ),
             ),
-            label: "Add New",
+            label: "",
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(
               Icons.rocket,
-              color: kBlack,
             ),
             label: "Budget",
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
-              color: kBlack,
             ),
             label: "Profile",
           ),
         ],
-        currentIndex: 0,
+        currentIndex: _selectedIndex,
         onTap: (index) {
           setState(() {
-            _controller.index = index;
+            _selectedIndex = index;
           });
         },
       ),
-      body: pages[_controller.index],
+      body: pages[_selectedIndex],
     );
   }
 }

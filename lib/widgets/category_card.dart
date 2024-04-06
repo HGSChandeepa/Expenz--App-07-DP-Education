@@ -9,12 +9,12 @@ class CategoryCard extends StatefulWidget {
   final Color progressColor;
 
   const CategoryCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.amount,
     required this.totalAmount,
     required this.progressColor,
-  }) : super(key: key);
+  });
 
   @override
   State<CategoryCard> createState() => _CategoryCardState();

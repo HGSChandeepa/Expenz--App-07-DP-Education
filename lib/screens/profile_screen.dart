@@ -1,10 +1,10 @@
-import 'package:expenz/screens/main_screen.dart';
 import 'package:expenz/screens/onboarding_screen.dart';
+import 'package:expenz/services/expence_services.dart';
+import 'package:expenz/services/income_services.dart';
 import 'package:expenz/services/user_details_service.dart';
 import 'package:expenz/utils/colors.dart';
 import 'package:expenz/utils/constants.dart';
 import 'package:expenz/widgets/profile_card.dart';
-import 'package:expenz/widgets/wrapper.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -50,6 +50,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onPressed: () async {
                       // Clear the user details from shared preferences
                       await UserService.clearUserDetails();
+
+                      //remove all expenses and incomes
+                      if (context.mounted == true) {
+                        await ExpenceService().deleteAllExpenses(context);
+                        await IncomeServices().deleteAllIncomes(context);
+                      }
+
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -138,9 +145,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "User Name",
-                          style: TextStyle(
+                        Text(
+                          email,
+                          style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: kGrey,

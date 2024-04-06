@@ -98,4 +98,23 @@ class ExpenceService {
       print(e.toString());
     }
   }
+
+
+  //delete all expenses from shared preferences
+  Future<void> deleteAllExpenses(BuildContext context) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_expensesKey);
+
+      //show snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('All expenses deleted successfully'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }

@@ -5,7 +5,6 @@ import 'package:expenz/utils/constants.dart';
 import 'package:expenz/widgets/expence_card.dart';
 import 'package:expenz/widgets/income_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class TransactionsScreen extends StatefulWidget {
   final List<Expense> expensesList;

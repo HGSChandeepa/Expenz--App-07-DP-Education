@@ -11,10 +11,10 @@ class BudgetScreen extends StatefulWidget {
   final Map<IncomeCategory, double> incomeCategoryTotals;
 
   const BudgetScreen({
-    Key? key,
+    super.key,
     required this.expenseCategoryTotals,
     required this.incomeCategoryTotals,
-  }) : super(key: key);
+  });
 
   @override
   State<BudgetScreen> createState() => _BudgetScreenState();
@@ -56,8 +56,8 @@ class _BudgetScreenState extends State<BudgetScreen> {
           child: Column(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefalutPadding),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: kDefalutPadding, vertical: kDefalutPadding / 2),
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.06,
                   decoration: BoxDecoration(
