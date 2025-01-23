@@ -111,13 +111,13 @@ flutter_launcher_icons:
   adaptive_icon_foreground: "assets/app_icons/ic_launcher_foreground.png"
   web:
     generate: true
-    image_path: "assets/app_icons/desktop.png"
+    image_path: "assets/app_icons/web.png"
     background_color: "#hexcode"
     theme_color: "#hexcode"
   windows:
     generate: true
-    image_path: "assets/app_icons/desktop.png"
+    image_path: "assets/app_icons/web.png"
     icon_size: 48 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "assets/app_icons/desktop.png"
+    image_path: "assets/app_icons/web.png"
